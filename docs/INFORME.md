@@ -28,7 +28,7 @@
 | 14 | Faltaban metadatos para buscadores y redes sociales, el favicon, `robots.txt` y el sitemap. | `index.html` | Mala vista previa al compartir el enlace y menor visibilidad en Google. |
 | 15 | Imágenes pesadas: la foto de la categoría femenina pesaba 1.1 MB. No había carga diferida (lazy loading). | `images/`, `index.html` | La página cargaba lento en celulares. |
 | 16 | Restos de código: un comentario decía que el botón "Aceptar" se había eliminado pero seguía en uso, y había variables sin usar (`parent`, `floatingCount`). | `script.js` | Mantenimiento confuso. |
-| 17 | **El reporte de ventas `REPORTE_DE_VENTAS_AJRO_HOUSE OFICIAL.xlsx` está dentro del repositorio.** | raíz del proyecto | GitHub Pages lo publica: **cualquiera puede descargarlo** en `…/Perfume-s-Point/REPORTE_DE_VENTAS_AJRO_HOUSE%20OFICIAL.xlsx`. Ver la sección "Pendientes". |
+| 17 | **El reporte de ventas `REPORTE_DE_VENTAS_AJRO_HOUSE OFICIAL.xlsx` está dentro del repositorio.** | raíz del proyecto | GitHub Pages lo publica: **cualquiera puede descargarlo** en `arey2026.github.io/REPORTE_DE_VENTAS_AJRO_HOUSE%20OFICIAL.xlsx`. Ver la sección "Pendientes". |
 
 ## B. Correcciones realizadas
 
