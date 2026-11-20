@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /tests/
+Disallow: /supabase/
+
+Sitemap: https://arey2026.github.io/Perfume-s-Point/sitemap.xml

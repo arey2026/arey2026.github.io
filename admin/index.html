@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <title>Panel administrativo | AJRO HOUSE</title>
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <!-- Cargando -->
+  <div class="screen center" id="view-loading"><p class="muted">Cargando panel…</p></div>
+
+  <!-- Falta configurar la base de datos -->
+  <div class="screen center" id="view-setup" hidden>
+    <div class="auth-card wide">
+      <img src="../assets/logo-ajro-house.webp" alt="AJRO HOUSE" width="140" height="106" class="auth-logo">
+      <h1>Configura la base de datos</h1>
+      <p>El panel necesita una base de datos en la nube (Supabase) para guardar el inventario de forma segura y compartirlo entre dispositivos. Mientras tanto, la tienda muestra el catálogo de respaldo en modo de solo lectura.</p>
+      <ol>
+        <li>Crea un proyecto gratuito en supabase.com.</li>
+        <li>En <strong>SQL Editor</strong>, ejecuta el archivo <code>supabase/schema.sql</code>.</li>
+        <li>En <strong>Authentication → Users</strong>, crea tu usuario administrador y registra su ID en la tabla <code>admins</code>.</li>
+        <li>Copia la URL del proyecto y la clave <em>anon public</em> en <code>js/config.js</code>.</li>
+      </ol>
+      <p class="muted">Las instrucciones detalladas están en <code>docs/INFORME.md</code>, sección F.</p>
+      <a class="btn" href="../">Volver a la tienda</a>
+    </div>
+  </div>
+
+  <!-- Inicio de sesión -->
+  <div class="screen center" id="view-login" hidden>
+    <form class="auth-card" id="login-form" novalidate>
+      <img src="../assets/logo-ajro-house.webp" alt="AJRO HOUSE" width="140" height="106" class="auth-logo">
+      <h1>Panel administrativo</h1>
+      <p class="muted">Acceso exclusivo para administradores.</p>
+      <label class="field"><span>Correo electrónico</span><input type="email" id="login-email" autocomplete="username" required></label>
+      <label class="field"><span>Contraseña</span><input type="password" id="login-password" autocomplete="current-password" required></label>
+      <p class="form-error" id="login-error" role="alert"></p>
+      <button class="btn btn-gold btn-block" type="submit" id="login-submit">Iniciar sesión</button>
+      <a class="link" href="../">← Volver a la tienda</a>
+    </form>
+  </div>
+
+  <!-- Sin permisos -->
+  <div class="screen center" id="view-denied" hidden>
+    <div class="auth-card">
+      <h1>Acceso restringido</h1>
+      <p>Tu cuenta (<span id="denied-email"></span>) no tiene permisos de administrador.</p>
+      <button class="btn" type="button" data-action="logout">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <!-- Panel -->
+  <div class="layout" id="view-panel" hidden>
+    <aside class="sidebar" id="sidebar">
+      <img src="../assets/logo-ajro-house.webp" alt="AJRO HOUSE" width="110" height="83" class="side-logo">
+      <nav class="tabs" role="tablist" aria-label="Secciones del panel">
+        <button role="tab" data-tab="resumen" aria-selected="true">Resumen</button>
+        <button role="tab" data-tab="productos">Productos</button>
+        <button role="tab" data-tab="existencias">Existencias</button>
+        <button role="tab" data-tab="pedidos">Pedidos <span class="pill" id="pending-pill" hidden></span></button>
+        <button role="tab" data-tab="excel">Excel</button>
+        <button role="tab" data-tab="imagenes">Imágenes</button>
+      </nav>
+      <div class="side-foot">
+        <p class="muted small" id="user-email"></p>
+        <p class="muted small" id="backend-mode"></p>
+        <a class="btn btn-sm" href="../" target="_blank" rel="noopener">Ver tienda</a>
+        <button class="btn btn-sm" type="button" data-action="logout">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="btn btn-sm menu-btn" type="button" id="menu-btn" aria-controls="sidebar">Menú</button>
+        <h1 id="tab-title">Resumen</h1>
+        <button class="btn btn-sm" type="button" data-action="refresh">Actualizar datos</button>
+      </header>
+
+      <!-- RESUMEN -->
+      <section class="tab-panel" data-panel="resumen">
+        <div class="stats" id="stats"></div>
+        <div class="grid-2">
+          <div class="card">
+            <h2>Alertas de existencias</h2>
+            <div id="alerts-list"></div>
+          </div>
+          <div class="card">
+            <h2>Movimientos recientes</h2>
+            <div id="recent-moves"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCTOS -->
+      <section class="tab-panel" data-panel="productos" hidden>
+        <div class="toolbar">
+          <input type="search" id="prod-search" placeholder="Buscar por SKU, nombre o marca…" aria-label="Buscar productos">
+          <select id="prod-status" aria-label="Filtrar por estado">
+            <option value="">Todos los estados</option>
+            <option>Activo</option><option>Inactivo</option><option>Próximamente</option>
+          </select>
+          <select id="prod-alert" aria-label="Filtrar por existencias">
+            <option value="">Todas las existencias</option>
+            <option value="soldout">Agotados</option>
+            <option value="low">Con alertas</option>
+            <option value="featured">Destacados</option>
+            <option value="offer">En oferta</option>
+          </select>
+          <button class="btn btn-gold" type="button" data-action="new-product">+ Nuevo perfume</button>
+        </div>
+        <p class="muted small" id="prod-count"></p>
+        <div class="table-wrap">
+          <table class="table" id="products-table">
+            <thead><tr><th>Foto</th><th>SKU</th><th>Perfume</th><th>Categoría</th><th>Precios</th><th>Existencias</th><th>Estado</th><th>Destacado</th><th><span class="visually-hidden">Acciones</span></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- EXISTENCIAS -->
+      <section class="tab-panel" data-panel="existencias" hidden>
+        <div class="card info">
+          <strong>Botellas selladas y decants se controlan por separado.</strong>
+          Usa <em>Abrir botella</em> para pasar una botella sellada al líquido de decants (resta 1 botella y suma su contenido en ml).
+          Los pedidos de WhatsApp no descuentan existencias hasta que los confirmes en <em>Pedidos</em>.
+        </div>
+        <div class="toolbar">
+          <input type="search" id="stock-search" placeholder="Buscar perfume…" aria-label="Buscar en existencias">
+          <label class="check"><input type="checkbox" id="stock-alerts-only"> Solo con alertas</label>
+          <button class="btn btn-gold" type="button" data-action="new-movement">Registrar movimiento</button>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="stock-table">
+            <thead><tr><th>SKU</th><th>Perfume</th><th class="num">Botellas</th><th class="num">Líquido (ml)</th><th class="num">5 ml prep.</th><th class="num">10 ml prep.</th><th class="num">Vendibles 5 / 10 ml</th><th>Alertas</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h2>Historial de movimientos</h2>
+            <select id="moves-kind" aria-label="Filtrar por tipo">
+              <option value="">Todos los tipos</option>
+              <option value="entrada">Entrada</option><option value="salida">Salida</option><option value="ajuste">Ajuste</option>
+              <option value="apertura">Apertura de botella</option><option value="preparacion">Preparación de decants</option>
+              <option value="venta">Venta</option><option value="anulacion">Anulación</option><option value="importacion">Importación</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table class="table" id="moves-table">
+              <thead><tr><th>Fecha</th><th>Perfume</th><th>Tipo</th><th class="num">Botellas</th><th class="num">ml</th><th class="num">5 ml</th><th class="num">10 ml</th><th>Resultado</th><th>Nota</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PEDIDOS -->
+      <section class="tab-panel" data-panel="pedidos" hidden>
+        <div class="card info">
+          Los pedidos llegan aquí cuando un cliente pulsa <em>Enviar pedido por WhatsApp</em>. Quedan <strong>pendientes</strong> y no descuentan existencias.
+          Al <strong>confirmar</strong> un pedido se descuentan botellas y mililitros; si lo cancelas después, las existencias se devuelven.
+        </div>
+        <div class="toolbar">
+          <select id="orders-status" aria-label="Filtrar pedidos">
+            <option value="pendiente">Pendientes</option><option value="confirmado">Confirmados</option>
+            <option value="cancelado">Cancelados</option><option value="">Todos</option>
+          </select>
+          <input type="search" id="orders-search" placeholder="Buscar por código o cliente…" aria-label="Buscar pedidos">
+        </div>
+        <div id="orders-list" class="orders"></div>
+      </section>
+
+      <!-- EXCEL -->
+      <section class="tab-panel" data-panel="excel" hidden>
+        <div class="grid-3">
+          <div class="card action-card">
+            <h2>Plantilla</h2>
+            <p class="muted">Archivo .xlsx vacío con columnas, listas desplegables, validaciones e instrucciones.</p>
+            <button class="btn" type="button" data-action="download-template">Descargar plantilla</button>
+            <a class="link small" href="../plantilla/Inventario_Inicial_AJRO_HOUSE.xlsx" download>Inventario inicial (catálogo anterior, 93 perfumes)</a>
+          </div>
+          <div class="card action-card">
+            <h2>Exportar</h2>
+            <p class="muted">Descarga todos los productos con sus precios y existencias actuales para editarlos y volver a importarlos.</p>
+            <button class="btn btn-gold" type="button" data-action="export-excel">Exportar inventario a Excel</button>
+          </div>
+          <div class="card action-card">
+            <h2>Importar</h2>
+            <p class="muted">Registra perfumes nuevos y actualiza los existentes por SKU. Verás una vista previa antes de guardar.</p>
+            <button class="btn btn-gold" type="button" data-action="import-excel">Importar inventario desde Excel</button>
+            <input type="file" id="import-file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
+          </div>
+        </div>
+        <div id="import-preview"></div>
+        <div class="card">
+          <h2>Copia de seguridad</h2>
+          <p class="muted">Descarga un archivo con todos los productos, movimientos y pedidos. Guárdalo en un lugar seguro con regularidad.</p>
+          <div class="row-actions">
+            <button class="btn" type="button" data-action="backup-json">Descargar copia (JSON)</button>
+            <button class="btn" type="button" data-action="export-excel">Descargar copia (Excel)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- IMÁGENES -->
+      <section class="tab-panel" data-panel="imagenes" hidden>
+        <div class="card">
+          <h2>Subir fotografías</h2>
+          <p class="muted">Se optimizan automáticamente (máx. 1200 px, formato WebP). Después escribe el nombre del archivo en la columna <em>Imagen</em> del Excel o elígela en el formulario del perfume.</p>
+          <label class="dropzone" id="dropzone">
+            <input type="file" id="images-input" accept="image/jpeg,image/png,image/webp" multiple>
+            <span>Arrastra aquí las fotos o <u>haz clic para elegirlas</u></span>
+          </label>
+          <div id="upload-log" class="small"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Fotografías guardadas</h2><input type="search" id="images-search" placeholder="Buscar…" aria-label="Buscar imágenes"></div>
+          <div class="image-grid" id="image-grid"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Formulario de producto -->
+  <dialog id="product-dialog" class="dialog wide" aria-labelledby="pd-title">
+    <form id="product-form" novalidate>
+      <header class="dialog-head"><h2 id="pd-title">Nuevo perfume</h2><button type="button" class="x" data-close aria-label="Cerrar">×</button></header>
+      <div class="dialog-body form-grid">
+        <label class="field"><span>SKU *</span><input name="sku" required maxlength="40" autocomplete="off"></label>
+        <label class="field span-2"><span>Nombre del perfume *</span><input name="name" required maxlength="120"></label>
+        <label class="field"><span>Marca *</span><input name="brand" required maxlength="80" list="brand-list"></label>
+        <label class="field"><span>Categoría *</span><select name="gender"><option>Masculino</option><option>Femenino</option><option>Unisex</option></select></label>
+        <label class="field"><span>Tipo de perfume *</span><select name="perfume_type"><option>Diseñador</option><option>Árabe</option><option>Nicho</option></select></label>
+        <label class="field span-3"><span>Descripción</span><textarea name="description" rows="2" maxlength="1000"></textarea></label>
+        <label class="field"><span>Precio botella sellada (L.)</span><input name="price_bottle" type="number" min="0" step="0.01" inputmode="decimal"></label>
+        <label class="field"><span>Precio decant 5 ml (L.)</span><input name="price_5ml" type="number" min="0" step="0.01" inputmode="decimal"></label>
+        <label class="field"><span>Precio decant 10 ml (L.)</span><input name="price_10ml" type="number" min="0" step="0.01" inputmode="decimal"></label>
+        <label class="field"><span>Tamaño de botella (ml)</span><input name="bottle_ml" type="number" min="1" max="1000" step="1"></label>
+        <label class="field"><span>Descuento (%)</span><input name="discount_pct" type="number" min="0" max="90" step="1"></label>
+        <label class="field"><span>Alerta existencias bajas</span><input name="low_stock_threshold" type="number" min="0" step="1"></label>
+        <label class="field"><span>Estado *</span><select name="status"><option>Activo</option><option>Inactivo</option><option>Próximamente</option></select></label>
+        <label class="check"><input type="checkbox" name="featured"> Producto destacado</label>
+        <label class="check"><input type="checkbox" name="is_new"> Nuevo lanzamiento</label>
+
+        <fieldset class="span-3 image-field">
+          <legend>Fotografía</legend>
+          <div class="image-row">
+            <img id="pd-preview" alt="" hidden>
+            <div class="image-inputs">
+              <label class="field"><span>Archivo o URL</span><input name="image" maxlength="500" list="image-list" placeholder="ej.: sauvage-edp.webp o images/sauvage.jpg"></label>
+              <label class="btn btn-sm file-btn">Subir foto nueva<input type="file" id="pd-image-file" accept="image/jpeg,image/png,image/webp" hidden></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="span-3" id="pd-stock-new">
+          <legend>Existencias iniciales</legend>
+          <div class="form-grid">
+            <label class="field"><span>Botellas selladas</span><input name="stock_bottles" type="number" min="0" step="1"></label>
+            <label class="field"><span>Mililitros para decants</span><input name="decant_ml" type="number" min="0" step="0.1"></label>
+            <label class="field"><span>Decants 5 ml preparados</span><input name="stock_5ml" type="number" min="0" step="1"></label>
+            <label class="field"><span>Decants 10 ml preparados</span><input name="stock_10ml" type="number" min="0" step="1"></label>
+          </div>
+        </fieldset>
+        <div class="span-3 muted small" id="pd-stock-existing" hidden></div>
+        <ul class="form-errors span-3" id="pd-errors" role="alert"></ul>
+      </div>
+      <footer class="dialog-foot">
+        <button type="button" class="btn" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-gold" id="pd-save">Guardar perfume</button>
+      </footer>
+    </form>
+  </dialog>
+  <datalist id="brand-list"></datalist>
+  <datalist id="image-list"></datalist>
+
+  <!-- Movimiento de inventario -->
+  <dialog id="stock-dialog" class="dialog" aria-labelledby="sd-title">
+    <form id="stock-form" novalidate>
+      <header class="dialog-head"><h2 id="sd-title">Movimiento de inventario</h2><button type="button" class="x" data-close aria-label="Cerrar">×</button></header>
+      <div class="dialog-body">
+        <label class="field"><span>Perfume</span><select name="product" id="sd-product" required></select></label>
+        <div class="current-stock" id="sd-current"></div>
+        <fieldset class="kind-picker">
+          <legend>Tipo de movimiento</legend>
+          <label><input type="radio" name="kind" value="entrada" checked> Entrada</label>
+          <label><input type="radio" name="kind" value="salida"> Salida</label>
+          <label><input type="radio" name="kind" value="ajuste"> Ajuste (conteo)</label>
+          <label><input type="radio" name="kind" value="apertura"> Abrir botella</label>
+          <label><input type="radio" name="kind" value="preparacion"> Preparar decants</label>
+        </fieldset>
+        <p class="muted small" id="sd-help"></p>
+        <div class="form-grid" id="sd-qty">
+          <label class="field"><span>Botellas selladas</span><input name="bottles" type="number" min="0" step="1"></label>
+          <label class="field"><span>Mililitros para decants</span><input name="ml" type="number" min="0" step="0.1"></label>
+          <label class="field"><span>Decants 5 ml preparados</span><input name="s5" type="number" min="0" step="1"></label>
+          <label class="field"><span>Decants 10 ml preparados</span><input name="s10" type="number" min="0" step="1"></label>
+        </div>
+        <div class="form-grid" id="sd-open" hidden>
+          <label class="field"><span>Botellas a abrir</span><input name="count" type="number" min="1" step="1" value="1"></label>
+        </div>
+        <div class="form-grid" id="sd-prepare" hidden>
+          <label class="field"><span>Tamaño</span><select name="size"><option value="5">5 ml</option><option value="10">10 ml</option></select></label>
+          <label class="field"><span>Cantidad de decants</span><input name="pcount" type="number" min="1" step="1" value="1"></label>
+        </div>
+        <label class="field"><span>Nota (opcional)</span><input name="note" maxlength="200" placeholder="Ej.: compra a proveedor, rotura, regalo…"></label>
+        <div class="result-preview" id="sd-preview"></div>
+        <p class="form-error" id="sd-error" role="alert"></p>
+      </div>
+      <footer class="dialog-foot">
+        <button type="button" class="btn" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-gold" id="sd-save">Registrar</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- Confirmación -->
+  <dialog id="confirm-dialog" class="dialog" aria-labelledby="cd-title">
+    <div class="dialog-inner">
+      <header class="dialog-head"><h2 id="cd-title">¿Confirmar?</h2></header>
+      <div class="dialog-body"><p id="cd-text"></p></div>
+      <footer class="dialog-foot">
+        <button type="button" class="btn" data-dialog-value="cancel">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="cd-ok" data-dialog-value="ok">Confirmar</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <div class="toast-region" id="toasts" aria-live="polite"></div>
+  <script type="module" src="../js/admin.js"></script>
+</body>
+</html>

@@ -1,334 +1,363 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://cdn.jsdelivr.net; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
-    <title>AJRO Perfumes | Perfumes y Decants</title>
+  <title>AJRO HOUSE | Perfumes originales y decants de 5 ml y 10 ml</title>
+  <meta name="description" content="AJRO HOUSE: perfumes originales de diseñador y árabes en botella sellada o en decants de 5 ml y 10 ml. Explora el catálogo y haz tu pedido por WhatsApp.">
+  <link rel="canonical" href="https://arey2026.github.io/Perfume-s-Point/">
+  <meta name="theme-color" content="#0b0b0c">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AJRO HOUSE">
+  <meta property="og:locale" content="es_HN">
+  <meta property="og:title" content="AJRO HOUSE | Perfumes originales y decants">
+  <meta property="og:description" content="Perfumes originales de diseñador y árabes. Botella sellada o decants de 5 ml y 10 ml. Pedidos por WhatsApp.">
+  <meta property="og:url" content="https://arey2026.github.io/Perfume-s-Point/">
+  <meta property="og:image" content="https://arey2026.github.io/Perfume-s-Point/assets/og-ajro-house.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AJRO HOUSE | Perfumes originales y decants">
+  <meta name="twitter:description" content="Perfumes originales de diseñador y árabes, en botella sellada o decants de 5 ml y 10 ml.">
+  <meta name="twitter:image" content="https://arey2026.github.io/Perfume-s-Point/assets/og-ajro-house.jpg">
+
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/store.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Store",
+    "name": "AJRO HOUSE",
+    "description": "Perfumería online: perfumes originales de diseñador y árabes, y decants de 5 ml y 10 ml.",
+    "url": "https://arey2026.github.io/Perfume-s-Point/",
+    "logo": "https://arey2026.github.io/Perfume-s-Point/assets/logo-ajro-house-180.png",
+    "image": "https://arey2026.github.io/Perfume-s-Point/assets/og-ajro-house.jpg",
+    "telephone": "+504 9627-8653",
+    "currenciesAccepted": "HNL"
+  }
+  </script>
 </head>
 
 <body>
+  <a class="skip-link" href="#catalogo">Saltar al catálogo</a>
 
-    <!-- BARRA DE NAVEGACIÓN -->
-    <header class="navbar">
+  <div class="announcement" role="note">
+    Perfumes originales · Decants de 5 ml y 10 ml · Pedidos por WhatsApp
+  </div>
 
-        <div class="logo">
-            <img src="AJRO HOUSE LOGO EN NEGRO.png" alt="AJRO Perfumes">
-        </div>
+  <!-- ENCABEZADO -->
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <button class="icon-btn menu-toggle" id="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav"></button>
 
-        <nav>
-            <a href="#inicio">Inicio</a>
-            <a href="#catalogo">Catálogo</a>
-            <a href="#decants">Decants</a>
-            <a href="#contacto">Contacto</a>
-        </nav>
-        
-        <button id="cart-button" class="cart-button" aria-label="Abrir carrito">
-            🛒 <span id="cart-count">0</span>
+      <a href="#inicio" class="brand" aria-label="AJRO HOUSE, ir al inicio">
+        <img src="assets/logo-ajro-house.webp" width="120" height="91" alt="AJRO HOUSE Perfumes">
+      </a>
+
+      <nav class="main-nav" id="main-nav" aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#decants">Decants</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn" id="search-shortcut" aria-label="Buscar perfumes"></button>
+        <button class="icon-btn has-count" id="favorites-button" aria-label="Ver favoritos">
+          <span class="count" id="favorites-count" hidden>0</span>
         </button>
+        <button class="icon-btn has-count" id="cart-button" aria-label="Abrir carrito">
+          <span class="count" id="cart-count" hidden>0</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-    </header>
-
-
+  <main>
     <!-- PORTADA -->
-    <section id="inicio" class="hero">
-
-        <div class="hero-content">
-
-            <p class="subtitle">TU FRAGANCIA, TU ESTILO</p>
-
-            <h1>
-                Encuentra tu<br>
-                próxima <span>fragancia</span>
-            </h1>
-
-            <p class="hero-text">
-                Descubre perfumes y fragancias originales
-                y decants de 5 ml y 10 ml.
-            </p>
-
-            <a href="#catalogo" class="button">
-                VER CATÁLOGO
-            </a>
-
+    <section class="hero" id="inicio">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Perfumería original</p>
+          <h1>Fragancias que <em>dejan huella</em>.</h1>
+          <p class="lead">
+            Perfumes originales de diseñador y árabes, en botella sellada o en decants de
+            5 ml y 10 ml para que pruebes antes de decidir.
+          </p>
+          <div class="hero-cta">
+            <a href="#catalogo" class="btn btn-gold">Explorar catálogo</a>
+            <a href="#" class="btn btn-ghost js-whatsapp" data-wa-text="Hola, AJRO HOUSE. Me gustaría recibir asesoría para elegir un perfume.">Asesoría por WhatsApp</a>
+          </div>
+          <dl class="hero-stats" id="hero-stats" aria-live="polite"></dl>
         </div>
-
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-glow"></div>
+          <img src="assets/logo-hero.webp" alt="" width="464" height="351" fetchpriority="high">
+        </div>
+      </div>
     </section>
-
-    <!-- EXPERIENCIA DECANTS -->
-    <section class="decant-experience">
-        <div class="decant-experience-head">
-            <p class="eyebrow">PRUEBA ANTES DE COMPRAR</p>
-            <h2>Encuentra el aroma que habla de ti.</h2>
-            <p>
-                Prueba perfumes originales en 5 ml o 10 ml antes de decidirte por el frasco completo.
-                Tu próxima fragancia empieza con una pequeña atomización.
-            </p>
-            <a href="#catalogo" class="outline-button">VER DECANTS DISPONIBLES</a>
-        </div>
-
-        <div class="decant-display" aria-label="Presentaciones de decants de AJRO Perfumes" role="img">
-            <div class="display-glow"></div>
-            <div class="display-bottle display-bottle-back">
-                <span class="display-cap"></span><span class="display-liquid"></span>
-            </div>
-            <div class="display-bottle display-bottle-main">
-                <span class="display-cap"></span><span class="display-liquid"></span>
-                <span class="display-label"><small>AJRO PERFUMES</small><strong>5 ML</strong></span>
-            </div>
-            <div class="display-bottle display-bottle-front">
-                <span class="display-cap"></span><span class="display-liquid"></span>
-                <span class="display-label"><small>AJRO PERFUMES</small><strong>10 ML</strong></span>
-            </div>
-        </div>
-
-        <div class="decant-route" aria-label="Cómo pedir un decant">
-            <div class="route-step"><span>01</span><strong>Descubre</strong><small>Explora el catálogo</small></div>
-            <div class="route-line"></div>
-            <div class="route-step"><span>02</span><strong>Prueba</strong><small>Elige 5 ml o 10 ml</small></div>
-            <div class="route-line"></div>
-            <div class="route-step"><span>03</span><strong>Decide</strong><small>Compra con confianza</small></div>
-        </div>
-    </section>
-
 
     <!-- CATEGORÍAS -->
-    <section class="categories">
-
-        <div class="section-title">
-            <p>DESCUBRE</p>
-            <h2>Elige tu fragancia</h2>
-        </div>
-
-        <div class="category-container">
-
-                <div class="category-card" data-category="Masculinos">
-                    <div class="category-image">
-                        <img src="images/los-mejores-perfumes-de-oton-o-para-hombre-esquire-1604414321.avif" alt="Masculinos">
-                    </div>
-                    <div class="category-info">
-                        <h3>Masculinos</h3>
-                        <p>Fragancias para hombres</p>
-                        <a href="#catalogo">Ver perfumes</a>
-                    </div>
-                </div>
-
-                <div class="category-card" data-category="Femeninos">
-                    <div class="category-image">
-                        <img src="images/rp-perfumes-280325-22415-c2101-r2164935-1-6853f67f10736.jpg" alt="Femeninos">
-                    </div>
-                    <div class="category-info">
-                        <h3>Femeninos</h3>
-                        <p>Fragancias para mujeres</p>
-                        <a href="#catalogo">Ver perfumes</a>
-                    </div>
-                </div>
-
-            <!-- categoría 'Árabes' eliminada según solicitud -->
-
-        </div>
-
+    <section class="section" id="categorias" aria-labelledby="categorias-title">
+      <div class="section-head reveal">
+        <p class="eyebrow">Descubre</p>
+        <h2 id="categorias-title">Encuentra tu estilo</h2>
+      </div>
+      <div class="category-grid" id="category-grid"></div>
     </section>
 
+    <!-- SECCIONES DINÁMICAS (solo aparecen si hay datos reales) -->
+    <section class="section rail-section" id="destacados" hidden aria-labelledby="destacados-title">
+      <div class="section-head reveal">
+        <p class="eyebrow">Selección de la casa</p>
+        <h2 id="destacados-title">Perfumes destacados</h2>
+      </div>
+      <div class="product-rail" data-rail="featured"></div>
+    </section>
+
+    <section class="section rail-section" id="ofertas" hidden aria-labelledby="ofertas-title">
+      <div class="section-head reveal">
+        <p class="eyebrow">Por tiempo limitado</p>
+        <h2 id="ofertas-title">Ofertas especiales</h2>
+      </div>
+      <div class="product-rail" data-rail="offers"></div>
+    </section>
+
+    <section class="section rail-section" id="nuevos" hidden aria-labelledby="nuevos-title">
+      <div class="section-head reveal">
+        <p class="eyebrow">Recién llegados</p>
+        <h2 id="nuevos-title">Nuevos lanzamientos</h2>
+      </div>
+      <div class="product-rail" data-rail="new"></div>
+    </section>
+
+    <section class="section rail-section" id="mas-vendidos" hidden aria-labelledby="vendidos-title">
+      <div class="section-head reveal">
+        <p class="eyebrow">Favoritos de nuestros clientes</p>
+        <h2 id="vendidos-title">Los más vendidos</h2>
+      </div>
+      <div class="product-rail" data-rail="best"></div>
+    </section>
 
     <!-- CATÁLOGO -->
-    <section id="catalogo" class="catalog">
+    <section class="section catalog" id="catalogo" aria-labelledby="catalogo-title">
+      <div class="section-head reveal">
+        <p class="eyebrow">Colección completa</p>
+        <h2 id="catalogo-title">Catálogo</h2>
+      </div>
 
-        <div class="section-title">
-            <p>NUESTROS FAVORITOS</p>
-            <h2>Perfumes Destacados</h2>
-            <a class="catalog-download" href="catalogo-perfumes.pdf" download="catalogo-perfumes.pdf">Descargar catálogo PDF</a>
+      <div class="catalog-toolbar">
+        <label class="search-field">
+          <span class="visually-hidden">Buscar perfume</span>
+          <span class="search-icon" aria-hidden="true"></span>
+          <input id="search-input" type="search" placeholder="Busca por nombre, marca o estilo…" autocomplete="off" enterkeyhint="search">
+        </label>
+        <button class="btn btn-outline filters-toggle" id="filters-toggle" aria-controls="filters-panel" aria-expanded="false">
+          <span class="filters-icon" aria-hidden="true"></span> Filtros <span class="filter-badge" id="filter-badge" hidden></span>
+        </button>
+        <label class="sort-field">
+          <span>Ordenar</span>
+          <select id="sort-select">
+            <option value="recommended">Recomendados</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+            <option value="name-asc">Nombre: A–Z</option>
+            <option value="name-desc">Nombre: Z–A</option>
+            <option value="newest">Novedades</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="catalog-layout">
+        <aside class="filters-panel" id="filters-panel" aria-label="Filtros del catálogo">
+          <div class="filters-panel-head">
+            <h3>Filtros</h3>
+            <button class="icon-btn" id="filters-close" aria-label="Cerrar filtros"></button>
+          </div>
+
+          <fieldset class="filter-group">
+            <legend>Categoría</legend>
+            <label class="check"><input type="checkbox" name="gender" value="Masculino"> Masculino</label>
+            <label class="check"><input type="checkbox" name="gender" value="Femenino"> Femenino</label>
+            <label class="check"><input type="checkbox" name="gender" value="Unisex"> Unisex</label>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend>Tipo de perfume</legend>
+            <label class="check"><input type="checkbox" name="type" value="Diseñador"> Diseñador</label>
+            <label class="check"><input type="checkbox" name="type" value="Árabe"> Árabe</label>
+            <label class="check"><input type="checkbox" name="type" value="Nicho"> Nicho</label>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend>Marca</legend>
+            <select id="brand-select" aria-label="Filtrar por marca">
+              <option value="">Todas las marcas</option>
+            </select>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend>Presentación</legend>
+            <select id="presentation-select" aria-label="Filtrar por presentación">
+              <option value="">Todas</option>
+              <option value="botella">Botella sellada</option>
+              <option value="5ml">Decant 5 ml</option>
+              <option value="10ml">Decant 10 ml</option>
+            </select>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend>Precio (L.)</legend>
+            <div class="price-range">
+              <input type="number" id="price-min" min="0" step="50" placeholder="Mínimo" inputmode="numeric" aria-label="Precio mínimo">
+              <span aria-hidden="true">—</span>
+              <input type="number" id="price-max" min="0" step="50" placeholder="Máximo" inputmode="numeric" aria-label="Precio máximo">
+            </div>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend>Disponibilidad</legend>
+            <label class="check"><input type="radio" name="availability" value="all" checked> Todos</label>
+            <label class="check"><input type="radio" name="availability" value="available"> Solo disponibles</label>
+            <label class="check"><input type="radio" name="availability" value="coming"> Próximamente</label>
+          </fieldset>
+
+          <fieldset class="filter-group">
+            <legend>Más opciones</legend>
+            <label class="check"><input type="checkbox" id="offers-only"> Solo ofertas</label>
+            <label class="check"><input type="checkbox" id="favorites-only"> Solo mis favoritos</label>
+          </fieldset>
+
+          <div class="filters-panel-foot">
+            <button class="btn btn-outline" id="clear-filters" type="button">Limpiar filtros</button>
+            <button class="btn btn-gold filters-apply" id="filters-apply" type="button">Ver resultados</button>
+          </div>
+        </aside>
+
+        <div class="catalog-results">
+          <div class="results-bar">
+            <p id="results-count" aria-live="polite">Cargando catálogo…</p>
+            <div class="active-chips" id="active-chips"></div>
+          </div>
+          <div class="product-grid" id="product-grid" aria-busy="true">
+            <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+          </div>
+          <div class="load-more-wrap">
+            <button class="btn btn-outline" id="load-more" hidden>Ver más perfumes</button>
+          </div>
         </div>
-
-        <div id="catalog-filter" class="catalog-filter">
-            <button class="filter-btn" data-filter="all">Todos</button>
-            <button class="filter-btn" data-filter="Masculinos">Masculinos</button>
-            <button class="filter-btn" data-filter="Femeninos">Femeninos</button>
-            <label class="catalog-search">
-                <span>Buscar</span>
-                <input id="product-search" type="search" placeholder="Buscar perfume..." autocomplete="off">
-            </label>
-            <label class="catalog-decants">
-                <span>Decants disponibles</span>
-                <select id="decant-filter">
-                    <option value="all">Todos los productos</option>
-                    <option value="available">Todos los decants</option>
-                    <option value="5ml">Solo 5 ml</option>
-                    <option value="10ml">Solo 10 ml</option>
-                </select>
-            </label>
-            <label class="catalog-sort">
-                <span>Ordenar</span>
-                <select id="price-sort">
-                    <option value="default">Orden original</option>
-                    <option value="high-low">Precio: mayor a menor</option>
-                    <option value="low-high">Precio: menor a mayor</option>
-                </select>
-            </label>
-        </div>
-
-        <div id="products-container" class="products-container">
-
-            <!-- Los productos los agregaremos después con JavaScript -->
-
-        </div>
-
+      </div>
     </section>
-
 
     <!-- DECANTS -->
-    <section id="decants" class="decants">
-
-        <div class="decants-content">
-
-            <p class="subtitle">PRUEBA ANTES DE COMPRAR</p>
-
-            <h2>
-                Lleva tu perfume<br>
-                en <span>5 ml o 10 ml</span>
-            </h2>
-
-            <p>
-                ¿Quieres conocer una fragancia antes de comprar
-                el frasco completo? Prueba nuestros decants.
-            </p>
-
-            <a href="#contacto" class="button">
-                QUIERO MI DECANT
-            </a>
-
+    <section class="section decants" id="decants" aria-labelledby="decants-title">
+      <div class="decants-inner">
+        <div class="decants-copy reveal">
+          <p class="eyebrow">Prueba antes de comprar</p>
+          <h2 id="decants-title">Tu próxima fragancia en <em>5 ml o 10 ml</em></h2>
+          <p>
+            Un decant es una porción del perfume original, envasada en un atomizador de 5 ml o 10 ml.
+            Es la forma ideal de conocer una fragancia en tu piel durante varios días antes de invertir
+            en el frasco completo.
+          </p>
+          <button class="btn btn-gold" type="button" id="decants-cta">Ver perfumes disponibles en decant</button>
         </div>
-
+        <ol class="steps reveal">
+          <li><span>01</span><strong>Descubre</strong><small>Explora el catálogo y elige tus favoritos.</small></li>
+          <li><span>02</span><strong>Prueba</strong><small>Pide tu decant de 5 ml o 10 ml.</small></li>
+          <li><span>03</span><strong>Decide</strong><small>Lleva el frasco completo con confianza.</small></li>
+        </ol>
+      </div>
     </section>
 
-
-    <!-- POR QUÉ AJRO PERFUMES -->
-    <section class="benefits">
-
-        <div class="section-title">
-            <p>AJRO PERFUMES</p>
-            <h2>¿Por qué nosotros?</h2>
-        </div>
-
-        <div class="benefits-container">
-
-            <div class="benefit">
-                <div class="benefit-icon">✦</div>
-                <h3>Variedad</h3>
-                <p>
-                    Perfumes originales y fragancias árabes
-                    para diferentes estilos.
-                </p>
-            </div>
-
-            <div class="benefit">
-                <div class="benefit-icon">5</div>
-                <h3>Decants</h3>
-                <p>
-                    Prueba tus fragancias favoritas en
-                    presentaciones de 5 ml y 10 ml.
-                </p>
-            </div>
-
-            <div class="benefit">
-                <div class="benefit-icon">✓</div>
-                <h3>Atención</h3>
-                <p>
-                    Realiza tu pedido fácilmente y recibe
-                    atención personalizada.
-                </p>
-            </div>
-
-        </div>
-
+    <!-- BENEFICIOS -->
+    <section class="section benefits" aria-labelledby="beneficios-title">
+      <div class="section-head reveal">
+        <p class="eyebrow">AJRO HOUSE</p>
+        <h2 id="beneficios-title">¿Por qué elegirnos?</h2>
+      </div>
+      <div class="benefit-grid">
+        <article class="benefit reveal"><span class="benefit-icon" data-icon="shield"></span><h3>Perfumes originales</h3><p>Fragancias de diseñador y árabes, en su presentación original.</p></article>
+        <article class="benefit reveal"><span class="benefit-icon" data-icon="drop"></span><h3>Decants de 5 ml y 10 ml</h3><p>Prueba un perfume en tu piel antes de comprar la botella completa.</p></article>
+        <article class="benefit reveal"><span class="benefit-icon" data-icon="chat"></span><h3>Atención personalizada</h3><p>Te ayudamos a elegir la fragancia ideal según tu estilo y la ocasión.</p></article>
+        <article class="benefit reveal"><span class="benefit-icon" data-icon="bag"></span><h3>Pedido sencillo</h3><p>Arma tu carrito y envíanos el pedido por WhatsApp en un solo paso.</p></article>
+      </div>
     </section>
-
 
     <!-- CONTACTO -->
-    <section id="contacto" class="contact">
-
-        <div class="contact-content">
-
-            <p class="subtitle">¿ENCONTRASTE TU FRAGANCIA?</p>
-
-            <h2>
-                Haz tu pedido!
-            </h2>
-
-            <p>
-                Escríbenos por WhatsApp y te ayudaremos
-                a encontrar el perfume ideal para ti.
-            </p>
-
-            <a
-                href="https://wa.me/"
-                target="_blank"
-                class="whatsapp-button"
-            >
-                💬 PEDIR POR WHATSAPP
-            </a>
-
-        </div>
-
+    <section class="section contact" id="contacto" aria-labelledby="contacto-title">
+      <div class="contact-card reveal">
+        <p class="eyebrow">¿Encontraste tu fragancia?</p>
+        <h2 id="contacto-title">Haz tu pedido hoy</h2>
+        <p>Escríbenos por WhatsApp y con gusto te ayudaremos a encontrar el perfume ideal para ti.</p>
+        <a href="#" class="btn btn-whatsapp js-whatsapp" data-wa-text="Hola, AJRO HOUSE. Me gustaría hacer un pedido."><span data-icon="whatsapp"></span> Escribir por WhatsApp</a>
+        <p class="contact-number">+504 9627-8653</p>
+      </div>
     </section>
+  </main>
 
-
-    <!-- FOOTER -->
-    <footer>
-
-        <div class="logo">
-            <img src="AJRO HOUSE LOGO EN NEGRO.png" alt="AJRO Perfumes">
-        </div>
-
-        <p>
-            Perfumes que dejan huella.
-        </p>
-
-        <p class="copyright">
-            © 2026 AJRO Perfumes. Todos los derechos reservados.
-        </p>
-
-    </footer>
-
-    <!-- CARRITO (modal) -->
-    <div id="cart-modal" class="cart-modal" aria-hidden="true">
-        <div class="cart-content">
-            <button id="close-cart" class="cart-close" aria-label="Cerrar carrito">✕</button>
-            <h2>Tu carrito</h2>
-
-            <div id="cart-items" class="cart-items">
-                <!-- items dinámicos -->
-            </div>
-
-            <div class="cart-summary">
-                <div>Total: <span id="cart-total">L. 0</span></div>
-                <button id="checkout-button" class="checkout-button">Comprar por WhatsApp</button>
-            </div>
-        </div>
+  <!-- PIE DE PÁGINA -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logo-ajro-house.webp" width="140" height="106" alt="AJRO HOUSE Perfumes" loading="lazy">
+        <p>Perfumes que dejan huella.</p>
+      </div>
+      <nav class="footer-links" aria-label="Enlaces del pie de página">
+        <h3>Tienda</h3>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#decants">Decants</a>
+        <a href="catalogo-perfumes.pdf" download>Catálogo en PDF</a>
+      </nav>
+      <div class="footer-links">
+        <h3>Contacto</h3>
+        <a href="#" class="js-whatsapp" data-wa-text="Hola, AJRO HOUSE.">WhatsApp: +504 9627-8653</a>
+      </div>
     </div>
+    <p class="copyright">© <span id="year">2026</span> AJRO HOUSE. Todos los derechos reservados.</p>
+  </footer>
 
-    <!-- Toast notifications -->
-    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+  <!-- WhatsApp flotante -->
+  <a href="#" class="floating-whatsapp js-whatsapp" data-wa-text="Hola, AJRO HOUSE. Tengo una consulta." aria-label="Escribir por WhatsApp"><span data-icon="whatsapp"></span></a>
 
-    <!-- Floating cart button -->
-    <button id="floating-cart" class="floating-cart" aria-label="Abrir carrito flotante">
-        🛒 <span id="floating-count">0</span>
-    </button>
-
-    <!-- Vista ampliada de producto -->
-    <div id="image-modal" class="image-modal" aria-hidden="true">
-        <div class="image-modal-content">
-            <button id="close-image-modal" class="image-modal-close" aria-label="Cerrar imagen">✕</button>
-            <img id="preview-image" src="" alt="">
-            <p id="preview-name"></p>
-        </div>
+  <!-- CARRITO -->
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
+    <div class="drawer-head">
+      <h2 id="cart-title">Tu carrito</h2>
+      <button class="icon-btn" id="cart-close" aria-label="Cerrar carrito"></button>
     </div>
+    <div class="drawer-body" id="cart-body"></div>
+    <div class="drawer-foot" id="cart-foot">
+      <div class="cart-total"><span>Total</span><strong id="cart-total">L. 0</strong></div>
+      <label class="field"><span>Tu nombre (opcional)</span><input id="customer-name" maxlength="80" autocomplete="name"></label>
+      <label class="field"><span>Comentario (opcional)</span><input id="customer-note" maxlength="200" placeholder="Ej.: entrega, forma de pago…"></label>
+      <button class="btn btn-whatsapp btn-block" id="checkout-button"><span data-icon="whatsapp"></span> Enviar pedido por WhatsApp</button>
+      <p class="fine-print">Tu pedido se confirma por WhatsApp. Verificaremos la disponibilidad antes de confirmarlo.</p>
+    </div>
+  </aside>
 
+  <!-- DETALLE DE PRODUCTO -->
+  <div class="modal" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="pm-name" hidden>
+    <div class="modal-card">
+      <button class="icon-btn modal-close" id="product-close" aria-label="Cerrar detalle"></button>
+      <div class="modal-content" id="product-content"></div>
+    </div>
+  </div>
 
-    <script src="script.js"></script>
+  <div class="toast-region" id="toasts" aria-live="polite" aria-atomic="true"></div>
 
+  <script type="module" src="js/store.js"></script>
 </body>
 </html>
