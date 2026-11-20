@@ -628,7 +628,7 @@ function bindEvents() {
 
   // Volver a consultar el inventario al regresar a la pestaña (si pasó más de 1 minuto)
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && Date.now() - state.loadedAt > 60000) loadProducts(true);
+    if (state.backend && state.loadedAt && document.visibilityState === 'visible' && Date.now() - state.loadedAt > 60000) loadProducts(true);
   });
 }
 
