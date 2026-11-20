@@ -51,7 +51,12 @@ export async function createSupabaseBackend(CONFIG) {
     },
     async signIn(email, password) {
       const { error } = await sb.auth.signInWithPassword({ email, password });
-      if (error) throw new Error(/invalid/i.test(error.message) ? 'Correo o contraseña incorrectos.' : error.message);
+      if (!error) return;
+      const msg = error.message || '';
+      if (/invalid login credentials/i.test(msg)) throw new Error('Correo o contraseña incorrectos.');
+      if (/email not confirmed/i.test(msg)) throw new Error('El correo de este usuario no está confirmado en Supabase (Authentication → Users).');
+      if (/invalid api key|no api key/i.test(msg)) throw new Error('La clave SUPABASE_ANON_KEY de js/config.js no es válida.');
+      throw new Error(msg);
     },
     async signOut() { await sb.auth.signOut(); },
     async isAdmin() {
